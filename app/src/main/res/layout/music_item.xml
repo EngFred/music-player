@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginHorizontal="8dp"
+    android:id="@+id/audio_layout"
+    android:layout_marginBottom="5dp">
+
+    <RelativeLayout
+        android:paddingTop="7dp"
+        android:paddingStart="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="RtlSymmetry">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_music_view"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/launch_icon"
+            android:background="@color/blue_white"
+            app:shapeAppearanceOverlay="@style/curved" />
+
+        <TextView
+            android:id="@+id/song_name"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="@string/song_name_"
+            android:layout_toStartOf="@id/song_duration"
+            android:layout_toEndOf="@id/image_music_view"
+            android:textColor="@color/black"
+            android:layout_marginStart="5dp" />
+
+        <TextView
+            android:id="@+id/song_album"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="@string/song_album"
+            android:layout_toStartOf="@id/song_duration"
+            android:layout_toEndOf="@id/image_music_view"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="30dp"/>
+
+        <TextView
+            android:id="@+id/song_duration"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="@string/started"
+            android:layout_alignParentEnd="true"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:layout_marginHorizontal="5dp"/>
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="tamarind">#3F51B5</color>
+    <color name="green">#4CAF50</color>
+    <color name="orange">#FF5722</color>
+    <color name="pink">#E91E63</color>
+    <color name="sepia_skin">#9d6043</color>
+    <color name="copperfield">#e2837c</color>
+    <color name="b1">#000000</color>
+    <color name="b2">#111111</color>
+    <color name="dark">#0E0E10</color>
+    <color name="dd">#1B1610</color>
+    <color name="special">#191A1C</color>
+    <color name="w_white">#F5F8FA</color>
+    <color name="red">@android:color/holo_red_light</color>
+    <color name="blue_white">#300556</color>
+
+</resources>

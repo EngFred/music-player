@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/theme_parent"
+    android:background="?attr/themeColor"
+    android:paddingHorizontal="40dp"
+    tools:context=".SettingsActivity">
+
+    <TextView
+        android:id="@+id/choose_color_tv"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="40dp"
+        android:textSize="20sp"
+        android:text="Choose Theme"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_marginTop="2dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/default_theme"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textSize="14sp"
+            android:singleLine="true"
+            android:text="Default theme"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/copperfield"
+            android:gravity="center"
+            android:layout_marginTop="2dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/dark_theme"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textSize="14sp"
+            android:singleLine="true"
+            android:text="Blue theme"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/tamarind"
+            android:gravity="center"
+            android:layout_marginTop="2dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/green_theme"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textSize="14sp"
+            android:singleLine="true"
+            android:text="Green theme"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/green"
+            android:gravity="center"
+            android:layout_marginTop="2dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/orange_theme"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textSize="14sp"
+            android:singleLine="true"
+            android:text="Orange theme"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/orange"
+            android:gravity="center"
+            android:layout_marginTop="2dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pink_theme"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textSize="14sp"
+            android:singleLine="true"
+            android:text="Pink theme"
+            android:textAllCaps="false"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/pink"
+            android:gravity="center"
+            android:layout_marginTop="2dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/dark2_theme"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textSize="14sp"
+            android:singleLine="true"
+            android:text="Dark theme"
+            android:textAllCaps="false"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/dark"
+            android:gravity="center"
+            android:layout_marginTop="2dp"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

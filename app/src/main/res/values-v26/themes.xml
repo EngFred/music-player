@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="themeColor" format="color"/>
+
+    <!--activities theme -->
+    <style name="defaultTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="themeColor">@color/copperfield</item>
+        <item name="android:statusBarColor">?attr/themeColor</item>
+        <item name="android:navigationBarColor">?attr/themeColor</item>
+        <item name="colorPrimary">?attr/themeColor</item>
+        <item name="background">@color/white</item>
+    </style>
+
+    <style name="darkTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="themeColor">@color/tamarind</item>
+        <item name="android:statusBarColor">?attr/themeColor</item>
+        <item name="android:navigationBarColor">?attr/themeColor</item>
+        <item name="background">?attr/themeColor</item>
+        <item name="colorPrimary">?attr/themeColor</item>
+    </style>
+
+    <style name="greenTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="themeColor">@color/green</item>
+        <item name="android:statusBarColor">?attr/themeColor</item>
+        <item name="android:navigationBarColor">?attr/themeColor</item>
+        <item name="background">?attr/themeColor</item>
+        <item name="colorPrimary">?attr/themeColor</item>
+    </style>
+
+    <style name="orangeTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="themeColor">@color/orange</item>
+        <item name="android:statusBarColor">?attr/themeColor</item>
+        <item name="android:navigationBarColor">?attr/themeColor</item>
+        <item name="background">?attr/themeColor</item>
+        <item name="colorPrimary">?attr/themeColor</item>
+    </style>
+
+    <style name="pinkTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="themeColor">@color/pink</item>
+        <item name="android:statusBarColor">?attr/themeColor</item>
+        <item name="android:navigationBarColor">?attr/themeColor</item>
+        <item name="background">?attr/themeColor</item>
+        <item name="colorPrimary">?attr/themeColor</item>
+    </style>
+
+    <style name="dark2Theme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="themeColor">@color/dark</item>
+        <item name="android:statusBarColor">?attr/themeColor</item>
+        <item name="android:navigationBarColor">?attr/themeColor</item>
+        <item name="background">?attr/themeColor</item>
+        <item name="colorPrimary">?attr/themeColor</item>
+    </style>
+
+
+
+    <style name="Theme.MusicPlayer.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.MusicPlayer.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!--my splash screen theme -->
+    <style name="SplashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash</item>
+        <item name="android:statusBarColor">@color/copperfield</item>
+        <item name="android:navigationBarColor">@color/copperfield</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+
+
+</resources>

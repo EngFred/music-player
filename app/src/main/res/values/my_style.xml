@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="curved">
+        <item name="cornerSize">10%</item>
+    </style>
+
+    <style name="curvedPA">
+        <item name="cornerSize">50%</item>
+    </style>
+
+</resources>
