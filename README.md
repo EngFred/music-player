@@ -1,5 +1,5 @@
 <h1>MyMusicPlayer</h1>
-<p>MyMusicPlayer is a simple and intuitive music player app for Android devices. It allows users to easily manage their music library, create playlists, mark favorite songs, and enjoy seamless playback.</p>
+<p>MyMusicPlayer is a simple and intuitive music player app for Android devices. It allows users to easily manage their music library, create playlists, mark favorite songs, and enjoy seamless playback..</p>
 <h2>Features</h2>
 <ul>
   <li><p><strong>Music Library:</strong> Browse and play music from your device's storage.</p></li>
