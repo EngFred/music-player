@@ -20,7 +20,10 @@ class FavoriteAdapter( private val context: Context, private var favList: ArrayL
                 songNameFA.text = audio.title
                 songAlbumFA.text = audio.album
                 songDurationFA.text = formatDuration( audio.duration )
-                Glide.with( itemView ).load( audio.artUri ).placeholder( R.drawable.launch_icon ).into( imageMusicViewFA  )
+                Glide.with(itemView)
+                    .load(getImageArt(audio.path))
+                    .fitCenter().placeholder(R.drawable.launch_icon).into(imageMusicViewFA)
+                //Glide.with( itemView ).load( audio.artUri ).placeholder( R.drawable.launch_icon ).into( imageMusicViewFA  )
             }
         }
     }

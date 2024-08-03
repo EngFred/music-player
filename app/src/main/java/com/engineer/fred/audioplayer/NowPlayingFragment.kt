@@ -37,11 +37,12 @@ class NowPlayingFragment : Fragment() {
         if ( PlayerActivity.ms != null  ) {
             //setting layout for now playing fragment
             binding.root.visibility = View.VISIBLE
-            Glide.with( requireContext() ).load( PlayerActivity.musicListPA[PlayerActivity.songPosition].artUri ).placeholder( R.drawable.launch_icon ).into( binding.nowPlayingIV )
+            Glide.with(requireContext())
+                .load(getImageArt(PlayerActivity.musicListPA[PlayerActivity.songPosition].path))
+                .fitCenter().placeholder(R.drawable.launch_icon).into(binding.nowPlayingIV)
             binding.songName.text = PlayerActivity.musicListPA[ PlayerActivity.songPosition ].title
             if ( PlayerActivity.isPlaying ) binding.playPauseBtn.setImageResource( R.drawable.baseline_pause_24 ) else binding.playPauseBtn.setImageResource( R.drawable.play )
             binding.songName.isSelected = true
-
             binding.playPauseBtn.setOnClickListener {
                 if ( PlayerActivity.isPlaying ) pause() else play()
             }

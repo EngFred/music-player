@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
-import android.graphics.Color
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.media.audiofx.AudioEffect
@@ -13,15 +12,12 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
-import android.view.View
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
-import com.bullhead.equalizer.EqualizerFragment
 import com.bullhead.equalizer.Settings
 import com.bumptech.glide.Glide
-import com.engineer.fred.audioplayer.NotificationReceiver.Companion.prevNext
 import com.engineer.fred.audioplayer.databinding.ActivityPlayerBinding
 import com.engineer.fred.audioplayer.models.Audio
 import com.google.android.material.snackbar.Snackbar
