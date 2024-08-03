@@ -381,6 +381,4 @@ class PlayerActivity: AppCompatActivity(), MediaPlayer.OnCompletionListener, Ser
         super.onResume()
         Settings.isEqualizerEnabled = true
     }
-
-
 }

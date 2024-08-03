@@ -173,7 +173,7 @@ class MainActivity : AppCompatActivity() {
                     val userInput = it.lowercase()
                     searchMusicList = ArrayList()
                     for (  song in musicList  )
-                        if (  song.title.lowercase().contains( userInput ) )
+                        if (song.title?.lowercase()?.contains( userInput ) == true)
                             searchMusicList.add( song )
                     isSearching = true
                     audioAdapter.updateMusicList( searchMusicList )

@@ -8,6 +8,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
+import com.engineer.fred.audioplayer.PlayerActivity.Companion.musicListPA
+import com.engineer.fred.audioplayer.PlayerActivity.Companion.songPosition
 import com.engineer.fred.audioplayer.databinding.MusicItemBinding
 import com.engineer.fred.audioplayer.models.Audio
 
@@ -28,7 +30,10 @@ class AudioAdapter(
                songName.text = audio.title
                songAlbum.text = audio.album
                songDuration.text = formatDuration( audio.duration )
-               Glide.with( itemView ).load( audio.artUri ).placeholder( R.drawable.launch_icon ).into( imageMusicView  )
+               Glide.with(itemView)
+                   .load(getImageArt(audio.path))
+                   .fitCenter().placeholder(R.drawable.launch_icon).into(imageMusicView)
+               //Glide.with( itemView ).load( audio.artUri ).placeholder( R.drawable.launch_icon ).into( imageMusicView  )
            }
         }
     }

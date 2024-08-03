@@ -29,7 +29,13 @@ class PlaylistListAdapter( private val context: Context, private var playlistLis
                         .centerCrop().into( playlistListImageView )
                 }
                 playlistListItemDelete.setOnClickListener { adapterClickListener.deletePlayList( playlist ) }
-                root.setOnClickListener {  adapterClickListener.showPlayListDetail( playlist , position )  }
+                root.setOnClickListener {
+                    try {
+                        adapterClickListener.showPlayListDetail(playlist, position)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
             }
         }
     }
