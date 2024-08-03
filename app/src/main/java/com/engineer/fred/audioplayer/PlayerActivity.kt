@@ -148,7 +148,7 @@ class PlayerActivity: AppCompatActivity(), MediaPlayer.OnCompletionListener, Ser
         binding.apply {
             songName.text = musicListPA[songPosition].title
             songName.isSelected = true
-            artistName.text = musicListPA[songPosition].artist
+            artistName.text = musicListPA[songPosition].album
             binding.songDuration.text = formatDuration(musicListPA[songPosition].duration)
             if (isPlaying) binding.playPauseBtn.setImageResource(R.drawable.baseline_pause_24)
             else binding.playPauseBtn.setImageResource(R.drawable.play)

@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:background="@drawable/gradient_default"
-    tools:context=".PlayerActivity4">
+    tools:context=".PlayerActivity">
 
     <LinearLayout
         android:id="@+id/head"
@@ -65,14 +65,12 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/playerImageView"
-            android:background="@color/white"
             android:scaleType="fitCenter"
             android:layout_marginHorizontal="10dp"
-            android:layout_width="380dp"
+            android:layout_width="match_parent"
             android:layout_height="380dp"
             android:layout_gravity="center"
-            app:strokeWidth="3dp"
-            android:backgroundTint="@color/b2"
+            android:backgroundTint="@android:color/transparent"
             app:layout_constraintTop_toBottomOf="@id/head"
             android:src="@drawable/launch_icon" />
 
