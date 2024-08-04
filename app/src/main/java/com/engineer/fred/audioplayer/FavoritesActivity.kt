@@ -4,12 +4,15 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.engineer.fred.audioplayer.databinding.ActivityFavoritesBinding
 import com.engineer.fred.audioplayer.models.Audio
 import com.google.android.material.snackbar.Snackbar
+import java.io.File
 
 class FavoritesActivity : AppCompatActivity() {
 
@@ -34,7 +37,6 @@ class FavoritesActivity : AppCompatActivity() {
 
     private fun initialiseFALayout() {
         if ( MainActivity.themeIndex == 5 ) binding.root.setBackgroundColor( ContextCompat.getColor(  this, R.color.special) )
-        favMusicList = checkFileExists( favMusicList )
         setUpFARecyclerView()
         registerFAClickEvents()
     }
@@ -54,7 +56,6 @@ class FavoritesActivity : AppCompatActivity() {
     private fun registerFAClickEvents() {
         binding.apply {
             backArrow.setOnClickListener { finish() }
-
             if (favMusicList.size <= 1) binding.floatingBtnFA.visibility = View.GONE
             else {
                 binding.floatingBtnFA.visibility = View.VISIBLE
@@ -71,6 +72,18 @@ class FavoritesActivity : AppCompatActivity() {
     @SuppressLint("NotifyDataSetChanged")
     override fun onResume() {
         super.onResume()
+        try {
+            if ( favMusicList.isNotEmpty()) {
+                favMusicList.forEachIndexed { index, audio ->
+                    val file = File(audio.path)
+                    if (!file.exists()) favMusicList.removeAt(index)
+                }
+            }
+        } catch (e: ConcurrentModificationException) {
+            Log.e("MyTag", e.message.toString())
+        } catch (e: Exception) {
+            Log.e("MyTag", e.message.toString())
+        }
         if(favouritesChanged) {
             favoriteAdapter.updateFavourites( favMusicList )
             favouritesChanged = false

@@ -363,8 +363,10 @@ class PlayerActivity: AppCompatActivity(), MediaPlayer.OnCompletionListener, Ser
                 createMediaPlayer()
                 ms?.currentPlayingSong = musicListPA[songPosition]
             }
-        }catch (e: Exception) {
-            Toast.makeText(baseContext, "${e.message}", Toast.LENGTH_SHORT).show()
+        }catch (e: IndexOutOfBoundsException) {
+            songPosition = 0
+            Log.e("Error", e.message.toString())
+        }catch (e: Exception){
             Log.e("Error", e.message.toString())
         }
     }

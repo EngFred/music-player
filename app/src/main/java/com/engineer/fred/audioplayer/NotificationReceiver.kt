@@ -132,8 +132,10 @@ class NotificationReceiver : BroadcastReceiver() {
                     }
                     play( context )
                 }
-            }catch (e: Exception) {
-                Toast.makeText(context, "${e.message}", Toast.LENGTH_SHORT).show()
+            }catch (e: IndexOutOfBoundsException) {
+                PlayerActivity.songPosition = 0
+                Log.e("Error", e.message.toString())
+            } catch (e: Exception) {
                 Log.e("Error", e.message.toString())
             }
         }
