@@ -5,7 +5,6 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
 import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Binder
@@ -13,14 +12,16 @@ import android.os.Build
 import android.os.IBinder
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.core.app.NotificationCompat
-import com.bullhead.equalizer.EqualizerFragment
 import com.engineer.fred.audioplayer.PlayerActivity.Companion.ms
+import com.engineer.fred.audioplayer.models.Audio
 
 class MusicService : Service(), AudioManager.OnAudioFocusChangeListener {
     private var myBinder = MyBinder()
     var mp: MediaPlayer? = null
     private lateinit var mediaSessionCompat: MediaSessionCompat
     lateinit var audioManager: AudioManager
+    var currentPlayingSong: Audio? = null
+
 
     override fun onBind(intent: Intent?): IBinder {
         mediaSessionCompat = MediaSessionCompat( baseContext, "My Music" )

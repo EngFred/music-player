@@ -3,6 +3,7 @@ package com.engineer.fred.audioplayer
 import android.app.Activity
 import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
+import android.util.Log
 import android.widget.Toast
 import com.engineer.fred.audioplayer.PlayerActivity.Companion.ms
 import com.engineer.fred.audioplayer.models.Audio
@@ -26,9 +27,14 @@ fun favoriteChecker( id: String ) {
 }
 
 fun getImageArt( path: String ): ByteArray? {
-    val retriever = MediaMetadataRetriever()
-    retriever.setDataSource( path )
-    return retriever.embeddedPicture
+    return try{
+        val retriever = MediaMetadataRetriever()
+        retriever.setDataSource( path )
+        retriever.embeddedPicture
+    }catch (e: Exception){
+        Log.e( "MyTag", e.toString() )
+        null
+    }
 }
 
 fun getMainColor(  img: Bitmap) : Int {

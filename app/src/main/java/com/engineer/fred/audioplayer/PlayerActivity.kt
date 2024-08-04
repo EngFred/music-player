@@ -12,7 +12,9 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
+import android.util.Log
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
@@ -252,10 +254,15 @@ class PlayerActivity: AppCompatActivity(), MediaPlayer.OnCompletionListener, Ser
             repeatButton.setOnClickListener {
                 if ( !repeatEnabled) {
                     repeatEnabled = true
-                    repeatButton.setColorFilter(  ContextCompat.getColor( baseContext, R.color.copperfield )  )
+                    val imageRes = R.drawable.repeat_one
+                    //binding.repeatButton.setColorFilter( iconTint )
+                    repeatButton.setImageResource(imageRes)
+                    //repeatButton.setColorFilter(  ContextCompat.getColor( baseContext, R.color.copperfield )  )
                 } else {
                     repeatEnabled = false
-                    repeatButton.setColorFilter(  ContextCompat.getColor( baseContext, R.color.white )  )
+                    val imageRes = R.drawable.baseline_repeat_24
+                    //binding.repeatButton.setColorFilter( iconTint )
+                    repeatButton.setImageResource(imageRes)
                 }
             }
         }
@@ -303,40 +310,62 @@ class PlayerActivity: AppCompatActivity(), MediaPlayer.OnCompletionListener, Ser
     }
 
     private fun prevNext( increment: Boolean ) {
-        if ( increment ) {
-            if ( !repeatEnabled) {
-                if ( musicListPA.size - 1 == songPosition) songPosition = 0
-                else songPosition++
+        try {
+            if ( increment ) {
+                if ( !repeatEnabled) {
+                    if ( musicListPA.size - 1 == songPosition){
+                        songPosition = 0
+                    } else {
+                        songPosition++
+                        val file = File(musicListPA[songPosition].path)
+                        if (musicListPA[songPosition].duration == 0L || !file.exists()) {
+                            songPosition++
+                        }
+                    }
+                }
+                updateUi()
+                //setting the layout for Now Playing fragment
+                Glide.with( applicationContext ).load( musicListPA[songPosition].artUri ).placeholder( R.drawable.launch_icon ).into( NowPlayingFragment.binding.nowPlayingIV )
+                NowPlayingFragment.binding.songName.text = musicListPA[songPosition].title
+                NowPlayingFragment.binding.songName.isSelected = true
+                NowPlayingFragment.binding.playPauseBtn.setImageResource( R.drawable.baseline_pause_24 )
+                //for Now Playing Fragment from fav
+                NowPlayingFragmentFromFav.binding?.nowPlayingIV?.let { Glide.with( applicationContext ).load( musicListPA[songPosition].artUri ).placeholder( R.drawable.launch_icon ).into(it) }
+                NowPlayingFragmentFromFav.binding?.songName?.text = musicListPA[songPosition].title
+                NowPlayingFragmentFromFav.binding?.songName?.isSelected = true
+                NowPlayingFragmentFromFav.binding?.playPauseBtn?.setImageResource( R.drawable.baseline_pause_24 )
+                createMediaPlayer()
+                ms?.currentPlayingSong = musicListPA[songPosition]
+            } else {
+                if ( !repeatEnabled) {
+                    if ( songPosition == 0 ){
+                        songPosition = ( musicListPA.size - 1 )
+                    } else {
+                        songPosition--
+                        val file = File(musicListPA[songPosition].path)
+                        if (musicListPA[songPosition].duration == 0L || !file.exists()) {
+                            songPosition--
+                        }
+                    }
+                }
+
+                updateUi()
+                //setting the layout for Now Playing fragment
+                Glide.with( applicationContext ).load( musicListPA[songPosition].artUri ).placeholder( R.drawable.launch_icon ).into( NowPlayingFragment.binding.nowPlayingIV )
+                NowPlayingFragment.binding.songName.text = musicListPA[songPosition].title
+                NowPlayingFragment.binding.songName.isSelected = true
+                NowPlayingFragment.binding.playPauseBtn.setImageResource( R.drawable.baseline_pause_24 )
+                //for Now Playing Fragment from fav
+                NowPlayingFragmentFromFav.binding?.nowPlayingIV?.let { Glide.with( applicationContext ).load( musicListPA[songPosition].artUri ).placeholder( R.drawable.launch_icon ).into(it) }
+                NowPlayingFragmentFromFav.binding?.songName?.text = musicListPA[songPosition].title
+                NowPlayingFragmentFromFav.binding?.songName?.isSelected = true
+                NowPlayingFragmentFromFav.binding?.playPauseBtn?.setImageResource( R.drawable.baseline_pause_24 )
+                createMediaPlayer()
+                ms?.currentPlayingSong = musicListPA[songPosition]
             }
-            updateUi()
-            //setting the layout for Now Playing fragment
-            Glide.with( applicationContext ).load( musicListPA[songPosition].artUri ).placeholder( R.drawable.launch_icon ).into( NowPlayingFragment.binding.nowPlayingIV )
-            NowPlayingFragment.binding.songName.text = musicListPA[songPosition].title
-            NowPlayingFragment.binding.songName.isSelected = true
-            NowPlayingFragment.binding.playPauseBtn.setImageResource( R.drawable.baseline_pause_24 )
-            //for Now Playing Fragment from fav
-            NowPlayingFragmentFromFav.binding?.nowPlayingIV?.let { Glide.with( applicationContext ).load( musicListPA[songPosition].artUri ).placeholder( R.drawable.launch_icon ).into(it) }
-            NowPlayingFragmentFromFav.binding?.songName?.text = musicListPA[songPosition].title
-            NowPlayingFragmentFromFav.binding?.songName?.isSelected = true
-            NowPlayingFragmentFromFav.binding?.playPauseBtn?.setImageResource( R.drawable.baseline_pause_24 )
-            createMediaPlayer()
-        } else {
-            if ( !repeatEnabled) {
-                if ( songPosition == 0   ) songPosition = ( musicListPA.size - 1 )
-                else songPosition--
-            }
-            updateUi()
-            //setting the layout for Now Playing fragment
-            Glide.with( applicationContext ).load( musicListPA[songPosition].artUri ).placeholder( R.drawable.launch_icon ).into( NowPlayingFragment.binding.nowPlayingIV )
-            NowPlayingFragment.binding.songName.text = musicListPA[songPosition].title
-            NowPlayingFragment.binding.songName.isSelected = true
-            NowPlayingFragment.binding.playPauseBtn.setImageResource( R.drawable.baseline_pause_24 )
-            //for Now Playing Fragment from fav
-            NowPlayingFragmentFromFav.binding?.nowPlayingIV?.let { Glide.with( applicationContext ).load( musicListPA[songPosition].artUri ).placeholder( R.drawable.launch_icon ).into(it) }
-            NowPlayingFragmentFromFav.binding?.songName?.text = musicListPA[songPosition].title
-            NowPlayingFragmentFromFav.binding?.songName?.isSelected = true
-            NowPlayingFragmentFromFav.binding?.playPauseBtn?.setImageResource( R.drawable.baseline_pause_24 )
-            createMediaPlayer()
+        }catch (e: Exception) {
+            Toast.makeText(baseContext, "${e.message}", Toast.LENGTH_SHORT).show()
+            Log.e("Error", e.message.toString())
         }
     }
 
@@ -360,6 +389,7 @@ class PlayerActivity: AppCompatActivity(), MediaPlayer.OnCompletionListener, Ser
         ms!!.audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
         ms!!.audioManager.requestAudioFocus(ms, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)
         createMediaPlayer()
+        ms?.currentPlayingSong = musicListPA[songPosition]
     }
 
     override fun onServiceDisconnected( componentName: ComponentName? ) {
@@ -376,5 +406,9 @@ class PlayerActivity: AppCompatActivity(), MediaPlayer.OnCompletionListener, Ser
     override fun onResume() {
         super.onResume()
         Settings.isEqualizerEnabled = true
+        val iconTint = if ( !repeatEnabled ) ContextCompat.getColor( baseContext, R.color.white ) else ContextCompat.getColor( baseContext, R.color.copperfield )
+        val imageRes = if ( !repeatEnabled ) R.drawable.baseline_repeat_24 else R.drawable.repeat_one
+        //binding.repeatButton.setColorFilter( iconTint )
+        binding.repeatButton.setImageResource(imageRes)
     }
 }

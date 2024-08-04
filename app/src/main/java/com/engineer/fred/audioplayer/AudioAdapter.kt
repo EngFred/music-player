@@ -2,16 +2,19 @@ package com.engineer.fred.audioplayer
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
-import com.engineer.fred.audioplayer.PlayerActivity.Companion.musicListPA
-import com.engineer.fred.audioplayer.PlayerActivity.Companion.songPosition
 import com.engineer.fred.audioplayer.databinding.MusicItemBinding
 import com.engineer.fred.audioplayer.models.Audio
+import java.io.File
 
 class AudioAdapter(
     private val context: Context,
@@ -20,12 +23,19 @@ class AudioAdapter(
     private val selectionActivity: Boolean = false
 ) : Adapter<AudioAdapter.AudioViewHolder>() {
 
+    private var songDeletedListener: SongDeletedListener? = null
+
+    fun onSongDeleted( songDeletedListener: SongDeletedListener ) {
+        this.songDeletedListener = songDeletedListener
+    }
+
     inner class AudioViewHolder( private val binding: MusicItemBinding ) : ViewHolder( binding.root ) {
         val songName = binding.songName
         val songAlbum = binding.songAlbum
         val songDuration = binding.songDuration
+        val moreVert = binding.more
         val root = binding.root
-        fun bind( audio: Audio) {
+        fun bind(audio: Audio, position: Int) {
            binding.apply {
                songName.text = audio.title
                songAlbum.text = audio.album
@@ -34,6 +44,21 @@ class AudioAdapter(
                    .load(getImageArt(audio.path))
                    .fitCenter().placeholder(R.drawable.launch_icon).into(imageMusicView)
                //Glide.with( itemView ).load( audio.artUri ).placeholder( R.drawable.launch_icon ).into( imageMusicView  )
+               moreVert.setOnClickListener {
+                   val popupMenu = PopupMenu(context, it)
+                   popupMenu.menuInflater.inflate(R.menu.delete_song_popup_menu, popupMenu.menu)
+                   popupMenu.setOnMenuItemClickListener { menuItem ->
+                       when (menuItem.itemId) {
+                           R.id.action_delete -> {
+                               showDeleteConfirmationDialog(audio)
+                               true
+                           }
+
+                           else -> false
+                       }
+                   }
+                   popupMenu.show()
+               }
            }
         }
     }
@@ -44,6 +69,7 @@ class AudioAdapter(
             binding.songName.setTextColor( ContextCompat.getColor( context, R.color.white  ) )
             binding.songAlbum.setTextColor( ContextCompat.getColor( context, R.color.white ) )
             binding.songDuration.setTextColor( ContextCompat.getColor( context, R.color.white )  )
+            binding.more.setColorFilter(R.color.white)
             binding.root.setBackgroundColor( ContextCompat.getColor( context, R.color.special ) )
         }
         return AudioViewHolder( binding )
@@ -62,14 +88,24 @@ class AudioAdapter(
 
     override fun onBindViewHolder(holder: AudioAdapter.AudioViewHolder, position: Int) {
         val currentAudio = musicList[ position ]
-        holder.bind( currentAudio )
+        holder.bind( currentAudio, position )
            when {
                playlistDetail -> {
                    holder.itemView.setOnClickListener {
-                       val intent = Intent(context, PlayerActivity::class.java)
-                       intent.putExtra("songPos", position)
-                       intent.putExtra("class", "PlayListDetail")
-                       ContextCompat.startActivity(context, intent, null)
+                       when {
+                           currentAudio.duration == 0L -> songError(currentAudio)
+                           else -> {
+                               val file = File(currentAudio.path)
+                               if (file.exists()) {
+                                   val intent = Intent(context, PlayerActivity::class.java)
+                                   intent.putExtra("songPos", position)
+                                   intent.putExtra("class", "PlayListDetail")
+                                   ContextCompat.startActivity(context, intent, null)
+                               } else{
+                                   Toast.makeText(context, "Song not found!", Toast.LENGTH_SHORT).show()
+                               }
+                           }
+                       }
                    }
                }
                selectionActivity -> {
@@ -104,30 +140,56 @@ class AudioAdapter(
                    holder.itemView.setOnClickListener {
                        when {
                            MainActivity.isSearching -> {
-                               val intent = Intent(context, PlayerActivity::class.java)
-                               intent.putExtra("songPos", position)
-                               intent.putExtra("class", "AudioAdapterSearch")
-                               ContextCompat.startActivity(context, intent, null)
+                               when {
+                                   currentAudio.duration == 0L -> songError(currentAudio)
+                                   else -> {
+                                       val file = File(currentAudio.path)
+                                       if (file.exists()) {
+                                           val intent = Intent(context, PlayerActivity::class.java)
+                                           intent.putExtra("songPos", position)
+                                           intent.putExtra("class", "AudioAdapterSearch")
+                                           ContextCompat.startActivity(context, intent, null)
+                                       } else{
+                                           Toast.makeText(context, "Song not found!", Toast.LENGTH_SHORT).show()
+                                       }
+                                   }
+                               }
                            }
 
                            else -> {
-                               val intent = Intent(context, PlayerActivity::class.java)
-                               intent.putExtra("songPos", position)
-                               intent.putExtra("class", "AudioAdapter")
-                               ContextCompat.startActivity(context, intent, null)
+                               when {
+                                   currentAudio.duration == 0L -> songError(currentAudio)
+                                   else -> {
+                                       val file = File(currentAudio.path)
+                                       if (file.exists()) {
+                                           val intent = Intent(context, PlayerActivity::class.java)
+                                           intent.putExtra("songPos", position)
+                                           intent.putExtra("class", "AudioAdapter")
+                                           ContextCompat.startActivity(context, intent, null)
+                                       } else{
+                                           Toast.makeText(context, "Song not found!", Toast.LENGTH_SHORT).show()
+                                       }
+                                   }
+                               }
                            }
                        }
                    }
                }
            }
     }
+
+    private fun songError(currentAudio: Audio) {
+        Toast.makeText(context, "The song has some problem!", Toast.LENGTH_SHORT).show()
+        Log.i("MyTag", currentAudio.toString())
+    }
+
     override fun getItemCount(): Int {
         return musicList.size
     }
 
-   fun updateMusicList( searchList: ArrayList<Audio>) {
+   fun updateMusicList(audioList: ArrayList<Audio>) {
        musicList = ArrayList()
-       musicList.addAll( searchList )
+       musicList.addAll( audioList )
       notifyDataSetChanged()
    }
 
@@ -136,4 +198,54 @@ class AudioAdapter(
         musicList = PlaylistListActivity.playlistList.ref[ PlaylistDetail.currentPlayListPos ].playlistSongs
         notifyDataSetChanged()
     }
+
+    private fun showDeleteConfirmationDialog(audio: Audio) {
+        AlertDialog.Builder(context).apply {
+            setTitle("Delete Song")
+            setMessage("Are you sure you want to delete \"${audio.title}\"?")
+            setPositiveButton("Delete") { dialog, _ ->
+                deleteSong(audio)
+                dialog.dismiss()
+            }
+            setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            create().show()
+        }
+    }
+
+    private fun deleteSong(audio: Audio) {
+        val file = File(audio.path)
+        Log.d("MyTag", "Trying to delete file: ${file.path}")
+
+        if (file.exists()) {
+            Log.d("MyTag", "File exists. Path: ${file.path}")
+
+            if (file.canWrite()) {
+                Log.d("MyTag", "File is writable.")
+                if (file.delete()) {
+                    Toast.makeText(context, "Song deleted", Toast.LENGTH_SHORT).show()
+                    // Remove the song from the list and notify the adapter
+                    songDeletedListener?.onSongDeleted(audio)
+                    updateMusicList(MainActivity.musicList)
+                    Log.d("MyTag", "File deleted successfully.")
+                } else {
+                    Toast.makeText(context, "Unable to delete song", Toast.LENGTH_SHORT).show()
+                    Log.d("MyTag", "Unable to delete song: ${file.path}")
+                }
+            } else {
+                Toast.makeText(context, "File is not writable", Toast.LENGTH_SHORT).show()
+                Log.d("MyTag", "File is not writable: ${file.path}")
+            }
+        } else {
+            Toast.makeText(context, "File does not exist!", Toast.LENGTH_SHORT).show()
+            Log.d("MyTag", "File does not exist: ${file.path}")
+        }
+    }
+
+    interface SongDeletedListener {
+        fun onSongDeleted(audio: Audio)
+    }
+
+
 }

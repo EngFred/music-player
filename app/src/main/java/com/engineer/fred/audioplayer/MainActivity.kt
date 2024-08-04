@@ -26,9 +26,10 @@ import com.google.gson.reflect.TypeToken
 import java.io.File
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), AudioAdapter.SongDeletedListener {
 
-    private val perm = android.Manifest.permission.READ_EXTERNAL_STORAGE
+//    private val perm = android.Manifest.permission.READ_EXTERNAL_STORAGE
+    private val perm = android.Manifest.permission.WRITE_EXTERNAL_STORAGE
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private val perm2 = android.Manifest.permission.READ_MEDIA_AUDIO
     private val writePermReturnId = 7239 // any suitable constant
@@ -91,6 +92,7 @@ class MainActivity : AppCompatActivity() {
         isSearching = false
         musicList = getAllAudio()
         audioAdapter = AudioAdapter( this, musicList )
+        audioAdapter.onSongDeleted(this)
         setUpRecyclerView()
         binding.totalSongsNumber.text = audioAdapter.itemCount.toString()
         registerClickEvents()
@@ -255,6 +257,19 @@ class MainActivity : AppCompatActivity() {
         jsonStringPlaylistList?.let {
             val dataPlaylistList: PlaylistList = GsonBuilder().create().fromJson( jsonStringPlaylistList, PlaylistList::class.java )
             PlaylistListActivity.playlistList = dataPlaylistList
+        }
+    }
+
+    override fun onSongDeleted(audio: Audio) {
+        if ( PlayerActivity.ms?.mp?.isPlaying == true ) {
+            if ( PlayerActivity.ms?.currentPlayingSong == audio ) {
+                NotificationReceiver.prevNext(true, this)
+                musicList = getAllAudio()
+            } else {
+                musicList = getAllAudio()
+            }
+        } else {
+            musicList = getAllAudio()
         }
     }
 

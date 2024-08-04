@@ -3,14 +3,17 @@ package com.engineer.fred.audioplayer
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
 import com.engineer.fred.audioplayer.databinding.FavAudioBinding
 import com.engineer.fred.audioplayer.models.Audio
+import java.io.File
 
 class FavoriteAdapter( private val context: Context, private var favList: ArrayList<Audio>) : Adapter<FavoriteAdapter.FavoriteViewHolder>() {
 
@@ -33,6 +36,7 @@ class FavoriteAdapter( private val context: Context, private var favList: ArrayL
             binding.songNameFA.setTextColor( ContextCompat.getColor( context, R.color.white  ) )
             binding.songAlbumFA.setTextColor( ContextCompat.getColor( context, R.color.white ) )
             binding.songDurationFA.setTextColor( ContextCompat.getColor( context, R.color.white )  )
+            binding.more.setColorFilter(R.color.white)
             binding.root.setBackgroundColor( ContextCompat.getColor( context, R.color.dark ) )
         }
         return FavoriteViewHolder( binding )
@@ -42,14 +46,29 @@ class FavoriteAdapter( private val context: Context, private var favList: ArrayL
         val currentAudio = favList[ position ]
         holder.bind( currentAudio )
         holder.itemView.setOnClickListener {
-            val intent = Intent( context, PlayerActivity::class.java )
-            intent.putExtra( "songPos", position )
-            intent.putExtra( "class", "FavoriteAdapter" )
-            ContextCompat.startActivity( context, intent, null )
+            when {
+                currentAudio.duration == 0L -> songError(currentAudio)
+                else -> {
+                    val file = File(currentAudio.path)
+                    if (file.exists()) {
+                        val intent = Intent( context, PlayerActivity::class.java )
+                        intent.putExtra( "songPos", position )
+                        intent.putExtra( "class", "FavoriteAdapter" )
+                        ContextCompat.startActivity( context, intent, null )
+                    } else{
+                        Toast.makeText(context, "Song not found!", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
         }
     }
     override fun getItemCount(): Int {
         return favList.size
+    }
+
+    private fun songError(currentAudio: Audio) {
+        Toast.makeText(context, "The song has some problem!", Toast.LENGTH_SHORT).show()
+        Log.i("MyTag", currentAudio.toString())
     }
 
     @SuppressLint("NotifyDataSetChanged")

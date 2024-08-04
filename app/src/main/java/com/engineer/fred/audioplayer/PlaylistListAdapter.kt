@@ -3,6 +3,7 @@ package com.engineer.fred.audioplayer
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView.Adapter
@@ -33,6 +34,7 @@ class PlaylistListAdapter( private val context: Context, private var playlistLis
                     try {
                         adapterClickListener.showPlayListDetail(playlist, position)
                     } catch (e: Exception) {
+                        Toast.makeText(context, "${e.message}", Toast.LENGTH_SHORT).show()
                         e.printStackTrace()
                     }
                 }
